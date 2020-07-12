@@ -1,1 +1,62 @@
-<p>login-card works!</p>
+<mat-card class="card-body">
+  <div class="row mt-3">
+    <div class="col">
+      <mat-card-title>Timekeeper <mat-icon>schedule</mat-icon></mat-card-title>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <mat-card-content>Sign In</mat-card-content>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <form class="loginForm" (ngSubmit)="onSubmit()" #f="ngForm">
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <mat-form-field class="email-input">
+                <input
+                  matInput
+                  placeholder="Email"
+                  [(ngModel)]="userEmail"
+                  name="userEmail"
+                  type="email"
+                  class="form-control"
+                  required pattern="[^ @]*@[^ @]*"
+                  #email="ngModel">
+                <mat-hint *ngIf="!!email.errors?.required && (email.dirty || email.touched)">Email is required</mat-hint>
+                <mat-hint *ngIf="!!email.errors?.pattern && (email.dirty || email.touched)">Email must contain at least the @ character</mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="password-input">
+              <input matInput
+                placeholder="Password"
+                [(ngModel)]="userPassword"
+                name="userPassword"
+                type="password"
+                class="form-control"
+                required minlength="8"
+                pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}"
+                #password="ngModel">
+              <mat-hint *ngIf="!!password.errors?.required  && (password.dirty || password.touched)">Password is required</mat-hint>
+              <mat-hint *ngIf="!!password.errors?.minlength && (password.dirty || password.touched)">Password must have at least 8 characters</mat-hint>
+              <mat-hint *ngIf="!!password.errors?.pattern && !password.errors?.minlength && (password.dirty || password.touched)">
+                Password must have at least one lowercase letter, uppercase letter, number, and special character
+              </mat-hint>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <button mat-raised-button type="submit" class="mt-4">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</mat-card>

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-card',
@@ -6,10 +7,22 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login-card.component.scss']
 })
 export class LoginCardComponent implements OnInit {
+  userEmail: string;
+  userPassword: string;
 
-  constructor() { }
+  @ViewChild('f', {static: false}) form: any;
+
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  onSubmit(): void {
+    if (this.form.valid) {
+      this.router.navigateByUrl('time-card');
+    }
   }
 
 }
