@@ -22,6 +22,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { MatIconModule } from '@angular/material/icon';
     MonthTimeCardComponent,
     SidenavComponent,
     ToolbarComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

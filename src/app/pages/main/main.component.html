@@ -1,1 +1,32 @@
-<p>main works!</p>
+<div class="container-flex">
+
+  <div class="row">
+    <div class="col">
+      <app-toolbar></app-toolbar>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <mat-sidenav-container>
+
+        <mat-sidenav
+          #sidenav
+          mode="side"
+          [(opened)]="sidenavService.opened"
+          class="col-1 text-center"
+          style="border: 1px solid #DDDDDD;"
+        >
+          <app-sidenav></app-sidenav>
+        </mat-sidenav>
+
+        <mat-sidenav-content style="background-color: white;">
+          <router-outlet></router-outlet>
+          <app-footer></app-footer>
+        </mat-sidenav-content>
+
+      </mat-sidenav-container>
+    </div>
+  </div>
+
+</div>

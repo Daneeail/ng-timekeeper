@@ -1,1 +1,13 @@
-<p>toolbar works!</p>
+<mat-toolbar>
+  <mat-toolbar-row>
+    <span class="start">
+      <button mat-icon-button (click)="toggleSideNav()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      Timekeeper
+      <mat-icon style="position: relative; top: .2em;">schedule</mat-icon>
+    </span>
+    <span class="mid">{{ tick | async | date: 'medium' }}</span>
+    <span routerLink="/login" style="font-size: .75em; cursor: pointer;">Sign Out</span>
+  </mat-toolbar-row>
+</mat-toolbar>

@@ -1,1 +1,29 @@
-<p>elapsed-time-display works!</p>
+<div class="row text-center">
+  <div class="col border">
+    <div class="row pt-3">
+      <div class="col">
+        <h3><a [routerLink]="'/time-card/month'">Month</a></h3>
+        <p>{{getCurrentMonth()}}</p>
+        <p>0h: 0m</p>
+      </div>
+    </div>
+  </div>
+  <div class="col border">
+    <div class="row pt-3">
+      <div class="col">
+        <h3><a [routerLink]="'/time-card/week'">Week</a></h3>
+        <p>{{getCurrentWeek()}}</p>
+        <p>0h: 0m</p>
+      </div>
+    </div>
+  </div>
+  <div class="col border">
+    <div class="row pt-3">
+      <div class="col">
+        <h3><a [routerLink]="'/time-card/day'">Day</a></h3>
+        <p>{{getCurrentDay()}}</p>
+        <p>0h: 0m</p>
+      </div>
+    </div>
+  </div>
+</div>
