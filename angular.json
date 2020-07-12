@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "ng-timekeeper"
+    }
+  },
+  "defaultProject": "ng-timekeeper",
+  "cli": {
+    "analytics": "9c5f222b-04cc-4c81-90cd-1b4108041e68"
+  }
 }
