@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { TaskCardComponent } from '../task-card/task-card.component';
 
 @Component({
   selector: 'app-day-time-card',
@@ -16,7 +17,7 @@ export class DayTimeCardComponent implements OnInit {
   }
 
   openTaskCard(): void {
-    this.dialog.open();
+    this.dialog.open(TaskCardComponent);
   }
 
 }
