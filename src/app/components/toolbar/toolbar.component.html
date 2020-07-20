@@ -5,9 +5,9 @@
         <mat-icon>menu</mat-icon>
       </button>
       Timekeeper
-      <mat-icon>schedule</mat-icon>
+      <mat-icon id="schedule-icon">schedule</mat-icon>
     </span>
     <span class="mid">{{ tick | async | date: 'medium' }}</span>
-    <span routerLink="/login">Sign Out</span>
+    <span routerLink="/login" id="sign-out-link">Sign Out</span>
   </mat-toolbar-row>
 </mat-toolbar>
