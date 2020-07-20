@@ -15,12 +15,12 @@
           mode="side"
           [(opened)]="sidenavService.opened"
           class="col-1 text-center"
-          style="border: 1px solid #DDDDDD;"
+          id="mat-sidenav"
         >
           <app-sidenav></app-sidenav>
         </mat-sidenav>
 
-        <mat-sidenav-content style="background-color: white;">
+        <mat-sidenav-content id="sidenav-content">
           <router-outlet></router-outlet>
           <app-footer></app-footer>
         </mat-sidenav-content>
