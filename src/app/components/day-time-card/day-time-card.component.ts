@@ -17,7 +17,9 @@ export class DayTimeCardComponent implements OnInit {
   }
 
   openTaskCard(): void {
-    this.dialog.open(TaskCardComponent);
+    this.dialog.open(TaskCardComponent, {
+      autoFocus: false
+    });
   }
 
 }
