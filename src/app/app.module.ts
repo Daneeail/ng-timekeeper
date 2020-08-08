@@ -25,7 +25,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FooterComponent } from './components/footer/footer.component';
-import { TaskCardComponent } from './components/task-card/task-card.component';
+import { ScheduleCardComponent } from './components/schedule-card/schedule-card.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +45,7 @@ import { TaskCardComponent } from './components/task-card/task-card.component';
     SidenavComponent,
     ToolbarComponent,
     FooterComponent,
-    TaskCardComponent,
+    ScheduleCardComponent,
   ],
   imports: [
     BrowserModule,

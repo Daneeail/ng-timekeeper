@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { TaskCardComponent } from '../task-card/task-card.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ScheduleCardComponent } from 'src/app/components/schedule-card/schedule-card.component';
+import { Schedule } from 'src/app/models/schedule';
 
 @Component({
   selector: 'app-day-time-card',
@@ -8,6 +9,8 @@ import { TaskCardComponent } from '../task-card/task-card.component';
   styleUrls: ['./day-time-card.component.scss']
 })
 export class DayTimeCardComponent implements OnInit {
+  schedules: Schedule[] = [];
+  dialogRef: any;
 
   constructor(
     public dialog: MatDialog
@@ -16,10 +19,15 @@ export class DayTimeCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  openTaskCard(): void {
-    this.dialog.open(TaskCardComponent, {
+  openScheduleCard(): void {
+    this.dialogRef = this.dialog.open(ScheduleCardComponent, {
       autoFocus: false
     });
   }
 
+  getScheduleCardData(): void {
+    this.dialogRef.afterClosed().subscribe(value => {
+      console.log(`Dialog sent: ${value}`);
+    });
+  }
 }
