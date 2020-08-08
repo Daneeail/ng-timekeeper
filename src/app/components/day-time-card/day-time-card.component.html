@@ -1,15 +1,31 @@
 <div class="row p-3">
   <div class="col">
-    <div class="row">
+    <div class="row text-right">
       <div class="col">
         <button mat-icon-button (click)="openScheduleCard()">
           <mat-icon>add</mat-icon>
         </button>
         <span>Add Schedule</span>
       </div>
-      <div class="row">
-        <div class="col">
-
+    </div>
+    <div *ngFor="let schedule of schedules" class="row">
+      <div class="col">
+        <div class="row">
+          <div class="col">
+            {{ schedule.name }}
+          </div>
+          <div class="col text-right">
+            <button mat-icon-button (click)="openScheduleCard()">
+              <mat-icon>add</mat-icon>
+            </button>
+            <span>Add Task</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <fa-icon [icon]="faSpinner" [spin]="false"></fa-icon>
+            <span class="pl-3">Start Task</span>
+          </div>
         </div>
       </div>
     </div>
