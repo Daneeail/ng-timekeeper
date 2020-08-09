@@ -24,10 +24,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FooterComponent } from './components/footer/footer.component';
 import { ScheduleCardComponent } from './components/schedule-card/schedule-card.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TaskCardComponent } from './components/task-card/task-card.component';
+import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
 
 @NgModule({
   declarations: [
@@ -65,8 +69,13 @@ import { TaskCardComponent } from './components/task-card/task-card.component';
     MatIconModule,
     MatDialogModule,
     MatAutocompleteModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
     ReactiveFormsModule,
     FontAwesomeModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatMomentModule,
   ],
   providers: [
   ],

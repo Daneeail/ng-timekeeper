@@ -25,6 +25,30 @@
         <div class="row">
           <div class="col">
             <mat-form-field class="task-field">
+              <mat-label>Start Date</mat-label>
+              <input matInput required [ngxMatDatetimePicker]="startPicker" [formControl]="startDtField" [min]="minDate" [max]="maxDate">
+              <mat-error *ngIf="startDtField.invalid">Start date is required</mat-error>
+              <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+              <ngx-mat-datetime-picker #startPicker showSpinners="true" enableMeridian="true"></ngx-mat-datetime-picker>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="task-field">
+              <mat-label>End Date</mat-label>
+              <input matInput required [ngxMatDatetimePicker]="endPicker" [formControl]="endDtField" [min]="minDate" [max]="maxDate">
+              <mat-error *ngIf="endDtField.invalid">End date is required</mat-error>
+              <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+              <ngx-mat-datetime-picker #endPicker showSpinners="true" enableMeridian="true"></ngx-mat-datetime-picker>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="task-field">
               <mat-label>Description</mat-label>
               <input matInput type="text" [(ngModel)]="description">
               <button mat-button *ngIf="description" matSuffix mat-icon-button (click)="description=''">

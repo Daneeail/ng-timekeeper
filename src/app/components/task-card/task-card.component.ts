@@ -13,16 +13,18 @@ import * as moment from 'moment';
   styleUrls: ['./task-card.component.scss']
 })
 export class TaskCardComponent implements OnInit {
-  @ViewChild('picker') picker: any;
+  @ViewChild('startPicker') startPicker: any;
+  @ViewChild('endPicker') endPicker: any;
 
   nameField = new FormControl('', [Validators.required]);
   startDtField = new FormControl('', [Validators.required]);
+  endDtField = new FormControl('', [Validators.required]);
   nameOptions: string[] = ['Task 1', 'Task 2', 'Task 3'];
   filteredNameOptions: Observable<string[]>;
   description = '';
   notes = '';
-  minDate = moment().subtract(1, 'days').startOf('day');
-  maxDate = moment().subtract(1, 'days').endOf('day');
+  minDate = moment().startOf('day');
+  maxDate = moment().endOf('day');
 
   constructor(
     public dialogRef: MatDialogRef<TaskCardComponent>
@@ -46,7 +48,7 @@ export class TaskCardComponent implements OnInit {
   }
 
   addTask(): void {
-    if (!this.nameField.invalid) {
+    if (!this.nameField.invalid && !this.startDtField.invalid && !this.endDtField.invalid) {
       let newTask: Task;
       this.dialogRef.close(newTask);
     } else {
