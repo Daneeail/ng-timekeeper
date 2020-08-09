@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ScheduleCardComponent } from 'src/app/components/schedule-card/schedule-card.component';
+import { TaskCardComponent } from 'src/app/components/task-card/task-card.component';
 import { Schedule } from 'src/app/models/schedule';
 import { Task } from 'src/app/models/task';
 import { Subscription } from 'rxjs';
@@ -40,6 +41,22 @@ export class DayTimeCardComponent implements OnInit, OnDestroy {
     this.dialogRefSub = this.dialogRef.afterClosed().subscribe((value: Schedule) => {
       if (value) {
         this.schedules.push(value);
+      } else {
+        this.dialogRefSub.unsubscribe();
+      }
+    });
+  }
+
+  openTaskCard(scheduleIndex: number): void {
+    this.dialogRef = this.dialog.open(TaskCardComponent, {
+      autoFocus: false
+    });
+
+    this.dialogRefSub = this.dialogRef.afterClosed().subscribe((value: Task) => {
+      if (value) {
+        this.schedules[scheduleIndex].tasks.push(value);
+      } else {
+        this.dialogRefSub.unsubscribe();
       }
     });
   }

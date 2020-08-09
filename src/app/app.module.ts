@@ -27,6 +27,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FooterComponent } from './components/footer/footer.component';
 import { ScheduleCardComponent } from './components/schedule-card/schedule-card.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { TaskCardComponent } from './components/task-card/task-card.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ToolbarComponent,
     FooterComponent,
     ScheduleCardComponent,
+    TaskCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,9 +66,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatDialogModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

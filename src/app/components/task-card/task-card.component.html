@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col">
+    <h1 mat-dialog-title class="text-center font-weight-bold">Task Card</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <mat-dialog-content>
+      <div id="task-card-form">
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="task-field">
+              <input type="text" required placeholder="Name" matInput [formControl]="nameField" [matAutocomplete]="auto" >
+              <mat-error *ngIf="nameField.invalid">Name is required</mat-error>
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let nameOption of filteredNameOptions | async" [value]="nameOption">
+                  {{ nameOption }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="task-field">
+              <mat-label>Description</mat-label>
+              <input matInput type="text" [(ngModel)]="description">
+              <button mat-button *ngIf="description" matSuffix mat-icon-button (click)="description=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="task-field">
+              <mat-label>Notes</mat-label>
+              <textarea matInput type="text" [(ngModel)]="notes" class="notes-input"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+
+      </div>
+    </mat-dialog-content>
+  </div>
+</div>
+
+<div class="row pb-3">
+  <div class="col">
+    <mat-dialog-actions align="center">
+      <button mat-button (click)="addTask()">Add</button>
+    </mat-dialog-actions>
+  </div>
+</div>
