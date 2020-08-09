@@ -8,10 +8,10 @@
         <span>Add Schedule</span>
       </div>
     </div>
-    <div *ngFor="let schedule of schedules" class="row">
+    <div *ngFor="let schedule of schedules; let sIndex=index" class="row">
       <div class="col">
-        <div class="row">
-          <div class="col">
+        <div class="row" id="schedule-name-row">
+          <div class="col" id="schedule-name-col">
             {{ schedule.name }}
           </div>
           <div class="col text-right">
@@ -21,10 +21,23 @@
             <span>Add Task</span>
           </div>
         </div>
-        <div class="row">
+        <div *ngFor="let task of schedule.tasks; let tIndex=index" class="row p-1">
           <div class="col">
-            <fa-icon [icon]="faSpinner" [spin]="false"></fa-icon>
-            <span class="pl-3">Start Task</span>
+            {{ task.startDt | date: 'mediumTime' }}
+            <span *ngIf="task.endDt"> to {{ task.endDt | date: 'mediumTime' }}</span>
+            <span *ngIf="!task.endDt"> - Elasped Time: {{ calculateTaskDuration(task.startDt) }}</span>
+          </div>
+        </div>
+        <div class="row pt-2 pb-3 pl-2">
+          <div class="col">
+            <span *ngIf="!isTaskStarted || sIndex !== currentScheduleIndex" id="start-task" (click)="startTask(sIndex, schedule.id)">
+              <fa-icon [icon]="faSpinner" [spin]="false"></fa-icon>
+              <span class="pl-3">Start Task</span>
+            </span>
+            <span *ngIf="isTaskStarted && sIndex === currentScheduleIndex" id="start-task" (click)="stopTask(sIndex)">
+              <fa-icon [icon]="faSpinner" [spin]="true"></fa-icon>
+              <span class="pl-3">Stop Task</span>
+            </span>
           </div>
         </div>
       </div>

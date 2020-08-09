@@ -1,4 +1,5 @@
 import { ITimeUnit } from './time-unit';
+import { v4 as uuidv4 } from 'uuid';
 
 export class Task implements ITimeUnit {
   id: string;
@@ -8,4 +9,14 @@ export class Task implements ITimeUnit {
   scheduleId: string;
   startDt: Date;
   endDt: Date;
+
+  constructor(scheduleId: string) {
+    this.id = uuidv4();
+    this.name = 'Task';
+    this.description = '';
+    this.notes = '';
+    this.scheduleId = scheduleId;
+    this.startDt = new Date();
+    this.endDt = null;
+  }
 }
