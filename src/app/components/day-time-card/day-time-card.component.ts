@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ScheduleCardComponent } from 'src/app/components/schedule-card/schedule-card.component';
 import { TaskCardComponent } from 'src/app/components/task-card/task-card.component';
 import { Schedule } from 'src/app/models/schedule';
@@ -48,9 +48,13 @@ export class DayTimeCardComponent implements OnInit, OnDestroy {
   }
 
   openTaskCard(scheduleIndex: number): void {
-    this.dialogRef = this.dialog.open(TaskCardComponent, {
-      autoFocus: false
-    });
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = false;
+    dialogConfig.data = {
+      scheduleId: this.schedules[scheduleIndex].id
+    };
+
+    this.dialogRef = this.dialog.open(TaskCardComponent, dialogConfig);
 
     this.dialogRefSub = this.dialogRef.afterClosed().subscribe((value: Task) => {
       if (value) {

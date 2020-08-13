@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Task } from 'src/app/models/task';
 import { v4 as uuidv4 } from 'uuid';
 import * as moment from 'moment';
@@ -23,12 +23,16 @@ export class TaskCardComponent implements OnInit {
   filteredNameOptions: Observable<string[]>;
   description = '';
   notes = '';
+  scheduleId = '';
   minDate = moment().startOf('day');
   maxDate = moment().endOf('day');
 
   constructor(
-    public dialogRef: MatDialogRef<TaskCardComponent>
-  ) { }
+    public dialogRef: MatDialogRef<TaskCardComponent>,
+    @Inject(MAT_DIALOG_DATA) data
+  ) {
+    this.scheduleId = data.scheduleId;
+  }
 
   ngOnInit(): void {
     this.filterName();
@@ -49,11 +53,18 @@ export class TaskCardComponent implements OnInit {
 
   addTask(): void {
     if (!this.nameField.invalid && !this.startDtField.invalid && !this.endDtField.invalid) {
-      let newTask: Task;
+      const newTask: Task = this.createTaskObject(this.nameField.value, this.description,
+        this.notes, this.scheduleId, this.startDtField.value, this.endDtField.value);
       this.dialogRef.close(newTask);
     } else {
-      this.nameField.markAsTouched();
+      this.markFieldsAsTouched();
     }
+  }
+
+  markFieldsAsTouched(): void {
+    this.nameField.markAsTouched();
+    this.startDtField.markAsTouched();
+    this.endDtField.markAsTouched();
   }
 
   createTaskObject(name: string, description: string, notes: string, scheduleId: string, startDt: Date, endDt: Date): Task {
@@ -69,5 +80,4 @@ export class TaskCardComponent implements OnInit {
 
     return task;
   }
-
 }
