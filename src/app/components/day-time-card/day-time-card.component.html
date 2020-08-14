@@ -8,7 +8,7 @@
         <span>Add Schedule</span>
       </div>
     </div>
-    <div *ngFor="let schedule of schedules; let sIndex=index" class="row">
+    <div *ngFor="let schedule of timeService.schedules; let sIndex=index" class="row">
       <div class="col">
         <div class="row" id="schedule-name-row">
           <div class="col" id="schedule-name-col">

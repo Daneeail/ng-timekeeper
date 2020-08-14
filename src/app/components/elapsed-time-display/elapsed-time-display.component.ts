@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TimeService } from 'src/app/services/time.service';
 import * as moment from 'moment';
 
 @Component({
@@ -8,7 +9,9 @@ import * as moment from 'moment';
 })
 export class ElapsedTimeDisplayComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private timeService: TimeService
+  ) { }
 
   ngOnInit(): void {
   }
@@ -23,6 +26,20 @@ export class ElapsedTimeDisplayComponent implements OnInit {
 
   getCurrentMonth(): string {
     return moment().startOf('month').format('MMMM Do') + ' to ' + moment().endOf('month').format('MMMM Do');
+  }
+
+  calculateSecondsForDay(): number {
+    let totalSecondsForDay = 0;
+
+    this.timeService.schedules.forEach(schedule => {
+      schedule.tasks.forEach(task => {
+        if (task.endDt && moment(task.startDt).isSame(moment(), 'day')) {
+          totalSecondsForDay += this.timeService.calculateTotalSeconds(task.startDt, task.endDt);
+        }
+      });
+    });
+
+    return totalSecondsForDay;
   }
 
 }

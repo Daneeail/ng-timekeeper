@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ScheduleCardComponent } from 'src/app/components/schedule-card/schedule-card.component';
 import { TaskCardComponent } from 'src/app/components/task-card/task-card.component';
 import { Schedule } from 'src/app/models/schedule';
 import { Task } from 'src/app/models/task';
 import { Subscription } from 'rxjs';
+import { TimeService } from 'src/app/services/time.service';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import * as moment from 'moment';
 
@@ -13,24 +14,20 @@ import * as moment from 'moment';
   templateUrl: './day-time-card.component.html',
   styleUrls: ['./day-time-card.component.scss']
 })
-export class DayTimeCardComponent implements OnInit, OnDestroy {
-  schedules: Schedule[] = [];
-  tasks: Task[] = [];
+export class DayTimeCardComponent implements OnInit {
   dialogRef: any;
   dialogRefSub: Subscription;
   faSpinner = faSpinner;
   isTaskStarted = false;
   currentScheduleIndex: number;
+  currentTaskIndex: number;
 
   constructor(
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public timeService: TimeService
   ) { }
 
   ngOnInit(): void {
-  }
-
-  ngOnDestroy(): void {
-    this.dialogRefSub.unsubscribe();
   }
 
   openScheduleCard(): void {
@@ -40,7 +37,7 @@ export class DayTimeCardComponent implements OnInit, OnDestroy {
 
     this.dialogRefSub = this.dialogRef.afterClosed().subscribe((value: Schedule) => {
       if (value) {
-        this.schedules.push(value);
+        this.timeService.schedules.push(value);
       } else {
         this.dialogRefSub.unsubscribe();
       }
@@ -51,14 +48,14 @@ export class DayTimeCardComponent implements OnInit, OnDestroy {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = false;
     dialogConfig.data = {
-      scheduleId: this.schedules[scheduleIndex].id
+      scheduleId: this.timeService.schedules[scheduleIndex].id
     };
 
     this.dialogRef = this.dialog.open(TaskCardComponent, dialogConfig);
 
     this.dialogRefSub = this.dialogRef.afterClosed().subscribe((value: Task) => {
       if (value) {
-        this.schedules[scheduleIndex].tasks.push(value);
+        this.timeService.schedules[scheduleIndex].tasks.push(value);
       } else {
         this.dialogRefSub.unsubscribe();
       }
@@ -70,17 +67,17 @@ export class DayTimeCardComponent implements OnInit, OnDestroy {
       this.stopTask(this.currentScheduleIndex);
     }
 
+    this.timeService.schedules[scheduleIndex].tasks.push(new Task(scheduleId));
+
     this.isTaskStarted = true;
     this.currentScheduleIndex = scheduleIndex;
-
-    this.schedules[scheduleIndex].tasks.push(new Task(scheduleId));
+    this.currentTaskIndex = this.timeService.schedules[this.currentScheduleIndex].tasks.length - 1;
   }
 
   stopTask(scheduleIndex: number): void {
-    const lastTaskIndex = this.schedules[scheduleIndex].tasks.length;
     this.isTaskStarted = false;
 
-    this.schedules[scheduleIndex].tasks[lastTaskIndex - 1].endDt = new Date();
+    this.timeService.schedules[scheduleIndex].tasks[this.currentTaskIndex].endDt = new Date();
   }
 
   calculateTaskDuration(startDt: Date): string {

@@ -26,7 +26,7 @@
           <div class="col">
             <mat-form-field class="task-field">
               <mat-label>Start Date</mat-label>
-              <input matInput required [ngxMatDatetimePicker]="startPicker" [formControl]="startDtField" [min]="minDate" [max]="endDtField.value < maxDate ? endDtField.value : maxDate">
+              <input matInput required [ngxMatDatetimePicker]="startPicker" [formControl]="startDtField" [min]="minDate" [max]="endDtField.value ? endDtField.value : maxDate">
               <mat-error *ngIf="startDtField.invalid">Start date is required</mat-error>
               <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
               <ngx-mat-datetime-picker #startPicker showSpinners="true" showSeconds="true" enableMeridian="true"></ngx-mat-datetime-picker>
@@ -38,7 +38,7 @@
           <div class="col">
             <mat-form-field class="task-field">
               <mat-label>End Date</mat-label>
-              <input matInput required [ngxMatDatetimePicker]="endPicker" [formControl]="endDtField" [min]="startDtField.value > minDate ? startDtField.value : minDate" [max]="maxDate">
+              <input matInput required [ngxMatDatetimePicker]="endPicker" [formControl]="endDtField" [min]="startDtField.value ? startDtField.value : minDate" [max]="maxDate">
               <mat-error *ngIf="endDtField.invalid">End date is required</mat-error>
               <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
               <ngx-mat-datetime-picker #endPicker showSpinners="true" showSeconds="true" enableMeridian="true"></ngx-mat-datetime-picker>
