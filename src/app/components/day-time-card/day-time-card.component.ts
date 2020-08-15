@@ -29,10 +29,16 @@ export class DayTimeCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  openScheduleCard(): void {
-    this.dialogRef = this.dialog.open(ScheduleCardComponent, {
-      autoFocus: false
-    });
+  openScheduleCard(currentSchedule?: Schedule): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = false;
+    if (currentSchedule) {
+      dialogConfig.data = {
+        currentSchedule
+      }
+    }
+
+    this.dialogRef = this.dialog.open(ScheduleCardComponent, dialogConfig);
 
     this.dialogRefSub = this.dialogRef.afterClosed().subscribe((value: Schedule) => {
       if (value) {

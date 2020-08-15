@@ -12,7 +12,7 @@
       <div class="col">
         <div class="row" id="schedule-name-row">
           <div class="col" id="schedule-name-col">
-            {{ schedule.name }}
+            <span id="schedule-name-link" (click)="openScheduleCard(schedule)">{{ schedule.name }}</span>
           </div>
           <div class="col text-right">
             <button mat-icon-button (click)="openTaskCard(sIndex)">
