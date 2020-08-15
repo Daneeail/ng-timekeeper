@@ -12,7 +12,7 @@
       <div class="col">
         <div class="row" id="schedule-name-row">
           <div class="col" id="schedule-name-col">
-            <span id="schedule-name-link" (click)="openScheduleCard(schedule)">{{ schedule.name }}</span>
+            <span class="link" (click)="openScheduleCard(schedule)">{{ schedule.name }}</span>
           </div>
           <div class="col text-right">
             <button mat-icon-button (click)="openTaskCard(sIndex)">
@@ -22,10 +22,11 @@
           </div>
         </div>
         <div *ngFor="let task of schedule.tasks; let tIndex=index" class="row p-1">
-          <div class="col">
-            {{ task.startDt | date: 'mediumTime' }}
-            <span *ngIf="task.endDt"> to {{ task.endDt | date: 'mediumTime' }}</span>
-            <span *ngIf="!task.endDt"> - Elasped Time: {{ calculateTaskDuration(task.startDt) }}</span>
+          <div *ngIf="task.endDt" class="col">
+            <span class="link" (click)="openTaskCard(sIndex, task)">{{ task.startDt | date: 'mediumTime' }} to {{ task.endDt | date: 'mediumTime' }}</span>
+          </div>
+          <div *ngIf="!task.endDt" class="col">
+            <span>{{ task.startDt | date: 'mediumTime' }} - Elasped Time: {{ calculateTaskDuration(task.startDt) }}</span>
           </div>
         </div>
         <div class="row pt-2 pb-3 pl-2">

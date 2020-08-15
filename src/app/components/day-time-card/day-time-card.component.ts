@@ -35,7 +35,7 @@ export class DayTimeCardComponent implements OnInit {
     if (currentSchedule) {
       dialogConfig.data = {
         currentSchedule
-      }
+      };
     }
 
     this.dialogRef = this.dialog.open(ScheduleCardComponent, dialogConfig);
@@ -49,11 +49,12 @@ export class DayTimeCardComponent implements OnInit {
     });
   }
 
-  openTaskCard(scheduleIndex: number): void {
+  openTaskCard(scheduleIndex: number, currentTask?: Task): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = false;
     dialogConfig.data = {
-      scheduleId: this.timeService.schedules[scheduleIndex].id
+      scheduleId: this.timeService.schedules[scheduleIndex].id,
+      currentTask
     };
 
     this.dialogRef = this.dialog.open(TaskCardComponent, dialogConfig);

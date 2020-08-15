@@ -10,59 +10,45 @@
       <div id="task-card-form">
         <div class="row">
           <div class="col">
-            <mat-form-field class="task-field">
-              <input type="text" required placeholder="Name" matInput [formControl]="nameField" [matAutocomplete]="auto" >
-              <mat-error *ngIf="nameField.invalid">Name is required</mat-error>
-              <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let nameOption of filteredNameOptions | async" [value]="nameOption">
-                  {{ nameOption }}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-          </div>
-        </div>
+            <form [formGroup]="form">
+              <mat-form-field class="task-field">
+                <input type="text" required placeholder="Name" matInput formControlName="nameField" [matAutocomplete]="auto">
+                <mat-error *ngIf="form.get('nameField').invalid">Name is required</mat-error>
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let nameOption of filteredNameOptions | async" [value]="nameOption">
+                    {{ nameOption }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
 
-        <div class="row">
-          <div class="col">
-            <mat-form-field class="task-field">
-              <mat-label>Start Date</mat-label>
-              <input matInput required [ngxMatDatetimePicker]="startPicker" [formControl]="startDtField" [min]="minDate" [max]="endDtField.value ? endDtField.value : maxDate">
-              <mat-error *ngIf="startDtField.invalid">Start date is required</mat-error>
-              <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-              <ngx-mat-datetime-picker #startPicker showSpinners="true" showSeconds="true" enableMeridian="true"></ngx-mat-datetime-picker>
-            </mat-form-field>
-          </div>
-        </div>
+              <mat-form-field class="task-field">
+                <mat-label>Start Date</mat-label>
+                <input matInput required [ngxMatDatetimePicker]="startPicker" formControlName="startDtField" [min]="minDate" [max]="form.get('endDtField').value ? form.get('endDtField').value : maxDate">
+                <mat-error *ngIf="form.get('startDtField').invalid">Start date is required</mat-error>
+                <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                <ngx-mat-datetime-picker #startPicker showSpinners="true" showSeconds="true" enableMeridian="true">
+                </ngx-mat-datetime-picker>
+              </mat-form-field>
 
-        <div class="row">
-          <div class="col">
-            <mat-form-field class="task-field">
-              <mat-label>End Date</mat-label>
-              <input matInput required [ngxMatDatetimePicker]="endPicker" [formControl]="endDtField" [min]="startDtField.value ? startDtField.value : minDate" [max]="maxDate">
-              <mat-error *ngIf="endDtField.invalid">End date is required</mat-error>
-              <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-              <ngx-mat-datetime-picker #endPicker showSpinners="true" showSeconds="true" enableMeridian="true"></ngx-mat-datetime-picker>
-            </mat-form-field>
-          </div>
-        </div>
+              <mat-form-field class="task-field">
+                <mat-label>End Date</mat-label>
+                <input matInput required [ngxMatDatetimePicker]="endPicker" formControlName="endDtField" [min]="form.get('startDtField').value ? form.get('startDtField').value : minDate" [max]="maxDate">
+                <mat-error *ngIf="form.get('endDtField').invalid">End date is required</mat-error>
+                <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                <ngx-mat-datetime-picker #endPicker showSpinners="true" showSeconds="true" enableMeridian="true">
+                </ngx-mat-datetime-picker>
+              </mat-form-field>
 
-        <div class="row">
-          <div class="col">
-            <mat-form-field class="task-field">
-              <mat-label>Description</mat-label>
-              <input matInput type="text" [(ngModel)]="description">
-              <button mat-button *ngIf="description" matSuffix mat-icon-button (click)="description=''">
-                <mat-icon>close</mat-icon>
-              </button>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <mat-form-field class="task-field">
-              <mat-label>Notes</mat-label>
-              <textarea matInput type="text" [(ngModel)]="notes" class="notes-input"></textarea>
-            </mat-form-field>
+              <mat-form-field class="task-field">
+                <mat-label>Description</mat-label>
+                <input matInput type="text">
+              </mat-form-field>
+
+              <mat-form-field class="task-field">
+                <mat-label>Notes</mat-label>
+                <textarea matInput type="text" class="notes-input"></textarea>
+              </mat-form-field>
+            </form>
           </div>
         </div>
 
@@ -74,7 +60,8 @@
 <div class="row pb-3">
   <div class="col">
     <mat-dialog-actions align="center">
-      <button mat-button (click)="addTask()">Add</button>
+      <button *ngIf="!currentTask" mat-button (click)="addTask()">Add</button>
+      <button *ngIf="currentTask" mat-button (click)="saveTask()">Save</button>
     </mat-dialog-actions>
   </div>
 </div>
