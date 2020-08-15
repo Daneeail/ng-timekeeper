@@ -42,7 +42,7 @@ export class ElapsedTimeDisplayComponent implements OnInit {
   calculateTotalTimeString(unitOfTime: any): string {
     const totalSecondsInDay = this.calculateTotalSecondsInTimeCard(unitOfTime);
 
-    return this.timeService.convertSecondsToTimeString(totalSecondsInDay);
+    return this.timeService.convertSecondsToShortTimeString(totalSecondsInDay);
   }
 
 }

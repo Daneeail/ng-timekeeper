@@ -18,7 +18,7 @@ export class TimeService {
     return timeDiff;
   }
 
-  convertSecondsToTimeString(seconds: number): string {
+  convertSecondsToLongTimeString(seconds: number): string {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
     const secs = Math.floor(seconds % 60);
@@ -34,5 +34,17 @@ export class TimeService {
     } else {
       return hrs + hrString + mins + minString + secs + secString;
     }
+  }
+
+  convertSecondsToShortTimeString(seconds: number): string {
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = Math.floor(seconds % 60);
+
+    const secString = secs === 1 ? ' sec' : ' secs';
+    const minString = mins === 1 ? ' min : ' : '  mins : ';
+    const hrString = hrs === 1 ? ' hr : ' : ' hrs : ';
+
+    return hrs + hrString + mins + minString + secs + secString;
   }
 }

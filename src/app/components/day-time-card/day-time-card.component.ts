@@ -90,6 +90,6 @@ export class DayTimeCardComponent implements OnInit {
   calculateTaskDuration(startDt: Date): string {
     const timeDiff = this.timeService.calculateTotalSeconds(startDt);
 
-    return this.timeService.convertSecondsToTimeString(timeDiff);
+    return this.timeService.convertSecondsToLongTimeString(timeDiff);
   }
 }
