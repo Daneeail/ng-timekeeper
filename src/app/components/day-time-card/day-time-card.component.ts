@@ -7,7 +7,6 @@ import { Task } from 'src/app/models/task';
 import { Subscription } from 'rxjs';
 import { TimeService } from 'src/app/services/time.service';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-day-time-card',
@@ -67,10 +66,11 @@ export class DayTimeCardComponent implements OnInit {
       this.stopTask(this.currentScheduleIndex);
     }
 
-    this.timeService.schedules[scheduleIndex].tasks.push(new Task(scheduleId));
-
     this.isTaskStarted = true;
     this.currentScheduleIndex = scheduleIndex;
+
+    this.timeService.schedules[scheduleIndex].tasks.push(new Task(scheduleId));
+
     this.currentTaskIndex = this.timeService.schedules[this.currentScheduleIndex].tasks.length - 1;
   }
 
@@ -81,28 +81,8 @@ export class DayTimeCardComponent implements OnInit {
   }
 
   calculateTaskDuration(startDt: Date): string {
-    const start = moment(startDt);
-    const end = moment();
-    const timeDiff = end.diff(start, 'seconds');
+    const timeDiff = this.timeService.calculateTotalSeconds(startDt);
 
-    return this.convertSecondsToDuration(timeDiff);
-  }
-
-  convertSecondsToDuration(seconds: number): string {
-    const hrs = Math.floor(seconds / 3600);
-    const mins = Math.floor((seconds % 3600) / 60);
-    const secs = Math.floor(seconds % 60);
-
-    const secString = secs === 1 ? ' second' : ' seconds';
-    const minString = mins === 1 ? ' minute and ' : ' minutes and ';
-    const hrString = hrs === 1 ? ' hour ' : ' hours ';
-
-    if (seconds < 60) {
-      return seconds + secString;
-    } else if (seconds < 3600) {
-      return mins + minString + secs + secString;
-    } else {
-      return hrs + hrString + mins + minString + secs + secString;
-    }
+    return this.timeService.convertSecondsToTimeString(timeDiff);
   }
 }

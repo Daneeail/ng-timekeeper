@@ -16,30 +16,33 @@ export class ElapsedTimeDisplayComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getCurrentDay(): string {
-    return moment().format('dddd - MMMM Do, YYYY');
+  calculateCurrentUnitOfTime(unitOfTime: any): string {
+    return unitOfTime === 'day' ? moment().format('dddd - MMMM Do, YYYY') :
+      moment().startOf(unitOfTime).format('MMMM Do') + ' to ' + moment().endOf(unitOfTime).format('MMMM Do');
   }
 
-  getCurrentWeek(): string {
-    return moment().startOf('week').format('MMMM Do') + ' to ' + moment().endOf('week').format('MMMM Do');
-  }
-
-  getCurrentMonth(): string {
-    return moment().startOf('month').format('MMMM Do') + ' to ' + moment().endOf('month').format('MMMM Do');
-  }
-
-  calculateSecondsForDay(): number {
-    let totalSecondsForDay = 0;
-
+  calculateTotalSecondsInTimeCard(unitOfTime: any): number {
+    let totalSecondsInDay = 0;
     this.timeService.schedules.forEach(schedule => {
       schedule.tasks.forEach(task => {
-        if (task.endDt && moment(task.startDt).isSame(moment(), 'day')) {
-          totalSecondsForDay += this.timeService.calculateTotalSeconds(task.startDt, task.endDt);
+        if (moment(task.startDt).isSame(moment(), unitOfTime)) {
+          if (task.endDt) {
+            totalSecondsInDay += this.timeService.calculateTotalSeconds(task.startDt, task.endDt);
+          }
+          else {
+            totalSecondsInDay += this.timeService.calculateTotalSeconds(task.startDt);
+          }
         }
       });
     });
 
-    return totalSecondsForDay;
+    return totalSecondsInDay;
+  }
+
+  calculateTotalTimeString(unitOfTime: any): string {
+    const totalSecondsInDay = this.calculateTotalSecondsInTimeCard(unitOfTime);
+
+    return this.timeService.convertSecondsToTimeString(totalSecondsInDay);
   }
 
 }

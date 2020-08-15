@@ -7,25 +7,32 @@ import * as moment from 'moment';
 })
 export class TimeService {
   schedules: Schedule[] = [];
-  totalSecondsInDay: number;
 
   constructor() { }
 
-  calculateSecondsForDay(): void {
-    this.schedules.forEach(schedule => {
-      schedule.tasks.forEach(task => {
-        if (task.endDt && moment(task.startDt).isSame(moment(), 'day')) {
-          this.totalSecondsInDay += this.calculateTotalSeconds(task.startDt, task.endDt);
-        }
-      });
-    });
-  }
-
-  calculateTotalSeconds(startDt: Date, endDt: Date): number {
+  calculateTotalSeconds(startDt: Date, endDt?: Date): number {
     const start = moment(startDt);
-    const end = moment(endDt);
+    const end = endDt ? moment(endDt) : moment();
     const timeDiff = end.diff(start, 'seconds');
 
     return timeDiff;
+  }
+
+  convertSecondsToTimeString(seconds: number): string {
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = Math.floor(seconds % 60);
+
+    const secString = secs === 1 ? ' second' : ' seconds';
+    const minString = mins === 1 ? ' minute and ' : ' minutes and ';
+    const hrString = hrs === 1 ? ' hour ' : ' hours ';
+
+    if (seconds < 60) {
+      return seconds + secString;
+    } else if (seconds < 3600) {
+      return mins + minString + secs + secString;
+    } else {
+      return hrs + hrString + mins + minString + secs + secString;
+    }
   }
 }

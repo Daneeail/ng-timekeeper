@@ -3,8 +3,8 @@
     <div class="row pt-3">
       <div class="col">
         <h3><a [routerLink]="'/time-card/month'">Month</a></h3>
-        <p>{{getCurrentMonth()}}</p>
-        <p>0h: 0m</p>
+        <p>{{ calculateCurrentUnitOfTime('month') }}</p>
+        <p>{{ calculateTotalTimeString('month') }}</p>
       </div>
     </div>
   </div>
@@ -12,8 +12,8 @@
     <div class="row pt-3">
       <div class="col">
         <h3><a [routerLink]="'/time-card/week'">Week</a></h3>
-        <p>{{getCurrentWeek()}}</p>
-        <p>0h: 0m</p>
+        <p>{{ calculateCurrentUnitOfTime('week') }}</p>
+        <p>{{ calculateTotalTimeString('week') }}</p>
       </div>
     </div>
   </div>
@@ -21,8 +21,8 @@
     <div class="row pt-3">
       <div class="col">
         <h3><a [routerLink]="'/time-card/day'">Day</a></h3>
-        <p>{{getCurrentDay()}}</p>
-        <p>0h: 0m</p>
+        <p>{{ calculateCurrentUnitOfTime('day') }}</p>
+        <p>{{ calculateTotalTimeString('day') }}</p>
       </div>
     </div>
   </div>
