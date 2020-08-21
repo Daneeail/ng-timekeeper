@@ -8,6 +8,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { MainComponent } from './pages/main/main.component';
 import { TimeCardComponent } from './pages/time-card/time-card.component';
 import { DayTimeCardComponent } from './components/day-time-card/day-time-card.component';
+import { WeekTimeCardComponent } from './components/week-time-card/week-time-card.component';
 import { ElapsedTimeDisplayComponent } from './components/elapsed-time-display/elapsed-time-display.component';
 import { LoginCardComponent } from './components/login-card/login-card.component';
 import { MonthTimeCardComponent } from './components/month-time-card/month-time-card.component';
@@ -45,6 +46,7 @@ import { NgxMatMomentModule } from '@angular-material-components/moment-adapter'
 
     // Components
     DayTimeCardComponent,
+    WeekTimeCardComponent,
     ElapsedTimeDisplayComponent,
     LoginCardComponent,
     MonthTimeCardComponent,

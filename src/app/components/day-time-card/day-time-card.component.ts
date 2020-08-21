@@ -62,6 +62,8 @@ export class DayTimeCardComponent implements OnInit {
     this.dialogRefSub = this.dialogRef.afterClosed().subscribe((value: Task) => {
       if (value) {
         this.timeService.schedules[scheduleIndex].tasks.push(value);
+        this.setScheduleStartDt(scheduleIndex);
+        this.setScheduleEndDt(scheduleIndex);
       } else {
         this.dialogRefSub.unsubscribe();
       }
@@ -79,17 +81,53 @@ export class DayTimeCardComponent implements OnInit {
     this.timeService.schedules[scheduleIndex].tasks.push(new Task(scheduleId));
 
     this.currentTaskIndex = this.timeService.schedules[this.currentScheduleIndex].tasks.length - 1;
+
+    this.setScheduleStartDt(scheduleIndex);
   }
 
   stopTask(scheduleIndex: number): void {
     this.isTaskStarted = false;
 
     this.timeService.schedules[scheduleIndex].tasks[this.currentTaskIndex].endDt = new Date();
+
+    this.setScheduleEndDt(scheduleIndex);
   }
 
   calculateTaskDuration(startDt: Date): string {
     const timeDiff = this.timeService.calculateTotalSeconds(startDt);
 
     return this.timeService.convertSecondsToLongTimeString(timeDiff);
+  }
+
+  setScheduleStartDt(scheduleIndex: number): void {
+    let earliestStartDt: Date;
+
+    if (!this.timeService.schedules[scheduleIndex].startDt) {
+      earliestStartDt = new Date();
+    } else {
+      earliestStartDt = this.timeService.schedules[scheduleIndex].startDt;
+    }
+
+    this.timeService.schedules[scheduleIndex].tasks.forEach(task => {
+      if (task.startDt < earliestStartDt) { earliestStartDt = task.startDt; }
+    });
+
+    this.timeService.schedules[scheduleIndex].startDt = earliestStartDt;
+  }
+
+  setScheduleEndDt(scheduleIndex: number): void {
+    let lastEndDt: Date;
+
+    if (!this.timeService.schedules[scheduleIndex].endDt) {
+      lastEndDt = new Date();
+    } else {
+      lastEndDt = this.timeService.schedules[scheduleIndex].endDt;
+    }
+
+    this.timeService.schedules[scheduleIndex].tasks.forEach(task => {
+      if (task.endDt > lastEndDt) { lastEndDt = task.endDt; }
+    });
+
+    this.timeService.schedules[scheduleIndex].endDt = lastEndDt;
   }
 }

@@ -29,9 +29,6 @@ export class ElapsedTimeDisplayComponent implements OnInit {
           if (task.endDt) {
             totalSecondsInDay += this.timeService.calculateTotalSeconds(task.startDt, task.endDt);
           }
-          else {
-            totalSecondsInDay += this.timeService.calculateTotalSeconds(task.startDt);
-          }
         }
       });
     });

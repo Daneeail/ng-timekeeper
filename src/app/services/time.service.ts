@@ -47,4 +47,14 @@ export class TimeService {
 
     return hrs + hrString + mins + minString + secs + secString;
   }
+
+  setDaysOfWeekString(): string[] {
+    const daysOfWeek: string[] = [];
+
+    for (let i = 0; i < 7; i++) {
+      daysOfWeek.push(moment().startOf('week').add(i, 'days').format('dddd - MMMM Do, YYYY'));
+    }
+
+    return daysOfWeek;
+  }
 }

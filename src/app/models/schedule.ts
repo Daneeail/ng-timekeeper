@@ -9,6 +9,8 @@ export class Schedule implements ITimeUnit{
   notes: string;
   userId: string;
   tasks: Task[];
+  startDt?: Date;
+  endDt?: Date;
 
   constructor(name: string, description: string, notes: string) {
     this.id = uuidv4();
@@ -17,5 +19,7 @@ export class Schedule implements ITimeUnit{
     this.notes = notes;
     this.userId = 'TODO';
     this.tasks = [];
+    this.startDt = null;
+    this.endDt = null;
   }
 }
