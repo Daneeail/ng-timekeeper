@@ -8,13 +8,19 @@
     <div *ngFor="let schedule of daySchedule.schedules" class="row">
       <div class="col">
         <div class="row">
-          <div class="col">
+          <div class="col ml-2">
             {{ schedule.name }}
+          </div>
+          <div class="col">
+            {{ schedule.startDt | date: 'mediumTime'}} to {{ schedule.endDt | date: 'mediumTime' }}
           </div>
         </div>
         <div *ngFor="let task of schedule.tasks" class="row">
-          <div class="col">
+          <div class="col ml-4">
             {{ task.name }}
+          </div>
+          <div class="col">
+            {{ task.startDt | date: 'mediumTime' }} to {{ task.endDt | date: 'mediumTime' }}
           </div>
         </div>
       </div>
