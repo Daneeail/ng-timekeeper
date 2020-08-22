@@ -1,13 +1,13 @@
 <div *ngFor="let daySchedule of currentWeekSchedule.daySchedules; let i = index;" class="row p-3">
   <div class="col">
-    <div class="row">
+    <div class="row" (click)="toggleSchedule()">
       <div class="col">
         {{ daysOfWeekString[i] }}
       </div>
     </div>
-    <div *ngFor="let schedule of daySchedule.schedules" class="row">
+    <div *ngFor="let schedule of daySchedule.schedules" class="row" [@openClose]="isScheduleDisplayed ? 'open' : 'closed'">
       <div class="col">
-        <div class="row">
+        <div class="row" (click)="toggleTask()">
           <div class="col ml-2">
             {{ schedule.name }}
           </div>
@@ -15,7 +15,7 @@
             {{ schedule.startDt | date: 'mediumTime'}} to {{ schedule.endDt | date: 'mediumTime' }}
           </div>
         </div>
-        <div *ngFor="let task of schedule.tasks" class="row">
+        <div *ngFor="let task of schedule.tasks" class="row" [@openClose]="isTaskDisplayed ? 'open' : 'closed'">
           <div class="col ml-4">
             {{ task.name }}
           </div>
