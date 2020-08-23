@@ -7,3 +7,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   outline: none !important;
   border: 0 !important;
 }
+
+.bold {
+  font-weight: 500;
+}
+
+.boldest {
+  font-weight: 900;
+}
+
+.pointer {
+  cursor: pointer;
+}

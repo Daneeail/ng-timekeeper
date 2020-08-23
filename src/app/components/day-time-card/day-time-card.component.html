@@ -26,7 +26,10 @@
             <span class="link" (click)="openTaskCard(sIndex, task)">{{ task.startDt | date: 'mediumTime' }} to {{ task.endDt | date: 'mediumTime' }}</span>
           </div>
           <div *ngIf="!task.endDt" class="col">
-            <span>{{ task.startDt | date: 'mediumTime' }} - Elasped Time: {{ calculateTaskDuration(task.startDt) }}</span>
+            <span>{{ task.startDt | date: 'mediumTime' }} - Elasped Time: {{ calculateElapsedTime(task.startDt) }}</span>
+          </div>
+          <div *ngIf="task.endDt" class="col text-right">
+            Elapsed Time: {{ calculateTaskDuration(task.startDt, task.endDt) }}
           </div>
         </div>
         <div class="row pt-2 pb-3 pl-2">

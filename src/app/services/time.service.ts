@@ -13,7 +13,7 @@ export class TimeService {
   calculateTotalSeconds(startDt: Date, endDt?: Date): number {
     const start = moment(startDt);
     const end = endDt ? moment(endDt) : moment();
-    const timeDiff = end.diff(start, 'seconds');
+    const timeDiff = end.diff(start, 'seconds') + 1;
 
     return timeDiff;
   }

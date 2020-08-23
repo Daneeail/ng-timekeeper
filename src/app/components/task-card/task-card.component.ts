@@ -107,7 +107,8 @@ export class TaskCardComponent implements OnInit {
       notes,
       scheduleId,
       startDt,
-      endDt
+      endDt,
+      state: 'closed'
     };
 
     return task;

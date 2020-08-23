@@ -21,10 +21,10 @@ import * as moment from 'moment';
           opacity: 0
       })),
       transition('open => closed', [
-          animate('0.35s')
+          animate('0.25s ease-in-out')
       ]),
       transition('closed => open', [
-          animate('0.35s')
+          animate('0.25s ease-in-out')
       ]),
     ]),
   ]
@@ -42,14 +42,49 @@ export class WeekTimeCardComponent implements OnInit {
   ngOnInit(): void {
     this.daysOfWeekString = this.timeService.setDaysOfWeekString();
     this.currentWeekSchedule = this.setWeekSchedule();
+    this.setConsistentOpenState();
   }
 
-  toggleSchedule(): void {
-    this.isScheduleDisplayed = !this.isScheduleDisplayed;
+  toggleDaySchedules(index: number): void {
+    if (this.currentWeekSchedule.daySchedules[index].schedules[0]?.state === 'closed') {
+      this.currentWeekSchedule.daySchedules[index].schedules.forEach(schedule => {
+        schedule.state = 'open';
+      });
+    } else {
+      this.currentWeekSchedule.daySchedules[index].schedules.forEach(schedule => {
+        schedule.state = 'closed';
+      });
+    }
   }
 
-  toggleTask(): void {
-    this.isTaskDisplayed = !this.isTaskDisplayed;
+  toggleScheduleTasks(dayIndex: number, scheduleIndex: number): void {
+    if (this.currentWeekSchedule.daySchedules[dayIndex].schedules[scheduleIndex].tasks[0]?.state === 'closed') {
+      this.currentWeekSchedule.daySchedules[dayIndex].schedules[scheduleIndex].tasks.forEach(task => {
+        task.state = 'open';
+      });
+    } else {
+      this.currentWeekSchedule.daySchedules[dayIndex].schedules[scheduleIndex].tasks.forEach(task => {
+        task.state = 'closed';
+      });
+    }
+  }
+
+  setConsistentOpenState(): void {
+    this.currentWeekSchedule.daySchedules.forEach(daySchedule => {
+      if (daySchedule.schedules[0]?.state === 'open') {
+        daySchedule.schedules.forEach(schedule => {
+          schedule.state = 'open';
+        });
+      }
+
+      daySchedule.schedules.forEach(schedule => {
+        if (schedule.tasks[0]?.state === 'open') {
+          schedule.tasks.forEach(task => {
+            task.state = 'open';
+          });
+        }
+      });
+    });
   }
 
   setWeekSchedule(): WeekSchedule {
@@ -84,5 +119,11 @@ export class WeekTimeCardComponent implements OnInit {
     }
 
     return weekSchedule;
+  }
+
+  calculateTaskDuration(startDt: Date, endDt: Date): string {
+    const timeDiff = this.timeService.calculateTotalSeconds(startDt, endDt);
+
+    return this.timeService.convertSecondsToShortTimeString(timeDiff);
   }
 }

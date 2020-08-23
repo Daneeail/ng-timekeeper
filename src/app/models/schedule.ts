@@ -11,6 +11,7 @@ export class Schedule implements ITimeUnit{
   tasks: Task[];
   startDt?: Date;
   endDt?: Date;
+  state: string;
 
   constructor(name: string, description: string, notes: string) {
     this.id = uuidv4();
@@ -21,5 +22,6 @@ export class Schedule implements ITimeUnit{
     this.tasks = [];
     this.startDt = null;
     this.endDt = null;
+    this.state = 'closed';
   }
 }

@@ -9,6 +9,7 @@ export class Task implements ITimeUnit {
   scheduleId: string;
   startDt: Date;
   endDt: Date;
+  state: string;
 
   constructor(scheduleId: string) {
     this.id = uuidv4();
@@ -18,5 +19,6 @@ export class Task implements ITimeUnit {
     this.scheduleId = scheduleId;
     this.startDt = new Date();
     this.endDt = null;
+    this.state = 'closed';
   }
 }
