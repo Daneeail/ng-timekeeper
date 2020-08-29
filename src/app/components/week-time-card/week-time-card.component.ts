@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TimeService } from 'src/app/services/time.service';
 import { WeekSchedule } from 'src/app/models/week-schedule';
 import { DaySchedule } from 'src/app/models/day-schedule';
+import { Schedule } from 'src/app/models/schedule';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import * as moment from 'moment';
 
@@ -30,7 +31,7 @@ import * as moment from 'moment';
   ]
 })
 export class WeekTimeCardComponent implements OnInit {
-  daysOfWeekString: string[] = [];
+  daysOfWeek: string[] = [];
   currentWeekSchedule: WeekSchedule = {} as WeekSchedule;
   isScheduleDisplayed = false;
   isTaskDisplayed = false;
@@ -40,7 +41,7 @@ export class WeekTimeCardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.daysOfWeekString = this.timeService.setDaysOfWeekString();
+    this.daysOfWeek = this.timeService.setDaysOfWeek();
     this.currentWeekSchedule = this.setWeekSchedule();
     this.setConsistentOpenState();
   }
@@ -125,5 +126,19 @@ export class WeekTimeCardComponent implements OnInit {
     const timeDiff = this.timeService.calculateTotalSeconds(startDt, endDt);
 
     return this.timeService.convertSecondsToShortTimeString(timeDiff);
+  }
+
+  calculateTotalScheduleTime(schedule: Schedule): number {
+    let totalSeconds = 0;
+    schedule.tasks.forEach(task => {
+      totalSeconds += this.timeService.calculateTotalSeconds(task.startDt, task.endDt);
+    });
+
+    return totalSeconds;
+  }
+
+  getTotalScheduleTimeString(schedule: Schedule): string {
+    const seconds = this.calculateTotalScheduleTime(schedule);
+    return this.timeService.convertSecondsToShortTimeString(seconds);
   }
 }

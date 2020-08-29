@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TimeService } from 'src/app/services/time.service';
+import { MonthSchedule } from 'src/app/models/month-schedule';
 
 @Component({
   selector: 'app-month-time-card',
@@ -6,8 +8,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./month-time-card.component.scss']
 })
 export class MonthTimeCardComponent implements OnInit {
+  weeksOfMonth: string[] = [];
+  currentMonthSchedule: MonthSchedule = {} as MonthSchedule;
 
-  constructor() { }
+  constructor(
+    private timeService: TimeService
+  ) { }
 
   ngOnInit(): void {
   }

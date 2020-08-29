@@ -2,7 +2,7 @@
   <div class="col">
     <div class="row pointer boldest" (click)="toggleDaySchedules(i)">
       <div class="col">
-        {{ daysOfWeekString[i] }}
+        {{ daysOfWeek[i] }}
       </div>
     </div>
     <div *ngFor="let schedule of daySchedule.schedules; let j = index;" class="row" [@openClose]="schedule.state">
@@ -27,6 +27,11 @@
           </div>
           <div class="col text-right">
             {{ calculateTaskDuration(task.startDt, task.endDt) }}
+          </div>
+        </div>
+        <div *ngIf="schedule.tasks[0].state === 'open'" class="row boldest" [@openClose]="schedule.state">
+          <div class="col text-right">
+            {{ getTotalScheduleTimeString(schedule) }}
           </div>
         </div>
       </div>

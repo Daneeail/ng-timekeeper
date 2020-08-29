@@ -1,5 +1,6 @@
 import { ITimeUnit } from './time-unit';
 import { v4 as uuidv4 } from 'uuid';
+import * as moment from 'moment';
 
 export class Task implements ITimeUnit {
   id: string;
@@ -10,6 +11,7 @@ export class Task implements ITimeUnit {
   startDt: Date;
   endDt: Date;
   state: string;
+  dayIndex: number;
 
   constructor(scheduleId: string) {
     this.id = uuidv4();
@@ -20,5 +22,6 @@ export class Task implements ITimeUnit {
     this.startDt = new Date();
     this.endDt = null;
     this.state = 'closed';
+    this.dayIndex = moment().dayOfYear();
   }
 }

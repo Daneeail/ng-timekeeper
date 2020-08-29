@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Schedule } from 'src/app/models/schedule';
+import { DaySchedule } from 'src/app/models/day-schedule';
 import * as moment from 'moment';
+import { WeekSchedule } from '../models/week-schedule';
+import { MonthSchedule } from '../models/month-schedule';
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +51,7 @@ export class TimeService {
     return hrs + hrString + mins + minString + secs + secString;
   }
 
-  setDaysOfWeekString(): string[] {
+  setDaysOfWeek(): string[] {
     const daysOfWeek: string[] = [];
 
     for (let i = 0; i < 7; i++) {
@@ -56,5 +59,71 @@ export class TimeService {
     }
 
     return daysOfWeek;
+  }
+
+  setWeeksOfCurrentMonth(): string[] {
+    const weeksOfMonth: string[] = [];
+
+    const currentMonth = moment().get('month');
+    let checkMonth = moment().get('month');
+    let currentWeek = moment().startOf('month').week();
+
+    while (currentMonth === checkMonth) {
+      const week = moment().week(currentWeek).startOf('week').format('MMMM Do') + ' to ' + moment().week(currentWeek).endOf('week').format('MMMM Do');
+      weeksOfMonth.push(week);
+
+      currentWeek++;
+      checkMonth = moment().week(currentWeek).get('month');
+    }
+
+    const lastWeek = moment().week(currentWeek).startOf('week').format('MMMM Do') + ' to ' +
+      moment().week(currentWeek).endOf('week').format('MMMM Do');
+    weeksOfMonth.push(lastWeek);
+
+    return weeksOfMonth;
+  }
+
+  getScheduleForDay(dayIndex: number): DaySchedule {
+    const daySchedule = new DaySchedule();
+
+    daySchedule.day = moment().dayOfYear(dayIndex).format('dddd - MMMM Do, YYYY');
+    daySchedule.dayIndex = dayIndex;
+    daySchedule.schedules = this.schedules.filter(schedule => schedule.dayIndex === dayIndex);
+
+    return daySchedule;
+  }
+
+  getScheduleForWeek(weekIndex: number): WeekSchedule {
+    const weekSchedule = new WeekSchedule();
+    const startOfWeekDayIndex = moment().week(weekIndex).startOf('day').dayOfYear();
+    const endOfWeekDayIndex = moment().week(weekIndex).endOf('day').dayOfYear();
+
+    weekSchedule.week = moment().day(startOfWeekDayIndex).format('MMMM Do') + ' to ' + moment().day(endOfWeekDayIndex).format('MMMM Do');
+    weekSchedule.weekIndex = weekIndex;
+    weekSchedule.daySchedules = [];
+    for (let i = 0; i < 7; i++) {
+      let daySchedule = new DaySchedule();
+      daySchedule = this.getScheduleForDay(startOfWeekDayIndex + i);
+      weekSchedule.daySchedules.push(daySchedule);
+    }
+
+    return weekSchedule;
+  }
+
+  getScheduleForMonth(monthIndex: number): MonthSchedule {
+    const monthSchedule = new MonthSchedule();
+    const startOfMonthWeekIndex = moment().month(monthIndex).startOf('week').week();
+    const endOfMonthWeekIndex = moment().month(monthIndex).endOf('week').week();
+
+    monthSchedule.month = moment().month(monthIndex).format('MMMM');
+    monthSchedule.monthIndex = monthIndex;
+    monthSchedule.weekSchedules = [];
+    for (let i = startOfMonthWeekIndex; i < endOfMonthWeekIndex + 1; i++) {
+      let weekSchedule = new WeekSchedule();
+      weekSchedule = this.getScheduleForWeek(i);
+      monthSchedule.weekSchedules.push(weekSchedule);
+    }
+
+    return monthSchedule;
   }
 }

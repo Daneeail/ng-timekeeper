@@ -108,7 +108,8 @@ export class TaskCardComponent implements OnInit {
       scheduleId,
       startDt,
       endDt,
-      state: 'closed'
+      state: 'closed',
+      dayIndex: moment().dayOfYear()
     };
 
     return task;
