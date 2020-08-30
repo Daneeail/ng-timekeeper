@@ -29,7 +29,7 @@
             <span>{{ task.startDt | date: 'mediumTime' }} - Elasped Time: {{ calculateElapsedTime(task.startDt) }}</span>
           </div>
           <div *ngIf="task.endDt" class="col text-right">
-            Elapsed Time: {{ calculateTaskDuration(task.startDt, task.endDt) }}
+            Duration: {{ calculateTaskDuration(task.startDt, task.endDt) }}
           </div>
         </div>
         <div class="row pt-2 pb-3 pl-2">

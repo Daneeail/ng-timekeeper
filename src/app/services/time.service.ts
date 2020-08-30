@@ -66,18 +66,18 @@ export class TimeService {
 
     const currentMonth = moment().get('month');
     let checkMonth = moment().get('month');
-    let currentWeek = moment().startOf('month').week();
+    let currentWeek = moment().startOf('month').isoWeek();
 
     while (currentMonth === checkMonth) {
       const week = moment().week(currentWeek).startOf('week').format('MMMM Do') + ' to ' + moment().week(currentWeek).endOf('week').format('MMMM Do');
       weeksOfMonth.push(week);
 
       currentWeek++;
-      checkMonth = moment().week(currentWeek).get('month');
+      checkMonth = moment().isoWeek(currentWeek).get('month');
     }
 
-    const lastWeek = moment().week(currentWeek).startOf('week').format('MMMM Do') + ' to ' +
-      moment().week(currentWeek).endOf('week').format('MMMM Do');
+    const lastWeek = moment().isoWeek(currentWeek).startOf('week').format('MMMM Do') + ' to ' +
+      moment().isoWeek(currentWeek).endOf('week').format('MMMM Do');
     weeksOfMonth.push(lastWeek);
 
     return weeksOfMonth;
@@ -95,15 +95,25 @@ export class TimeService {
 
   getScheduleForWeek(weekIndex: number): WeekSchedule {
     const weekSchedule = new WeekSchedule();
-    const startOfWeekDayIndex = moment().week(weekIndex).startOf('day').dayOfYear();
-    const endOfWeekDayIndex = moment().week(weekIndex).endOf('day').dayOfYear();
 
-    weekSchedule.week = moment().day(startOfWeekDayIndex).format('MMMM Do') + ' to ' + moment().day(endOfWeekDayIndex).format('MMMM Do');
+    let startOfWeekDayIndex = moment().week(weekIndex).startOf('week').dayOfYear();
+    let endOfWeekDayIndex = moment().week(weekIndex).endOf('week').dayOfYear();
+
+    if (weekIndex === 1) {
+      startOfWeekDayIndex = 1;
+    }
+    if (weekIndex > 1) {
+      endOfWeekDayIndex = moment().week(weekIndex).endOf('week').dayOfYear() >
+      moment().week(weekIndex).startOf('week').dayOfYear() ?
+      moment().week(weekIndex).endOf('week').dayOfYear() : moment().endOf('year').dayOfYear();
+    }
+
+    weekSchedule.week = moment().dayOfYear(startOfWeekDayIndex).format('MMMM Do') + ' to ' + moment().dayOfYear(endOfWeekDayIndex).format('MMMM Do');
     weekSchedule.weekIndex = weekIndex;
     weekSchedule.daySchedules = [];
-    for (let i = 0; i < 7; i++) {
+    for (let i = startOfWeekDayIndex; i < endOfWeekDayIndex + 1; i++) {
       let daySchedule = new DaySchedule();
-      daySchedule = this.getScheduleForDay(startOfWeekDayIndex + i);
+      daySchedule = this.getScheduleForDay(i);
       weekSchedule.daySchedules.push(daySchedule);
     }
 
@@ -112,8 +122,9 @@ export class TimeService {
 
   getScheduleForMonth(monthIndex: number): MonthSchedule {
     const monthSchedule = new MonthSchedule();
-    const startOfMonthWeekIndex = moment().month(monthIndex).startOf('week').week();
-    const endOfMonthWeekIndex = moment().month(monthIndex).endOf('week').week();
+
+    const startOfMonthWeekIndex = moment().month(monthIndex).startOf('month').isoWeek();
+    const endOfMonthWeekIndex = moment().month(monthIndex).endOf('month').isoWeek();
 
     monthSchedule.month = moment().month(monthIndex).format('MMMM');
     monthSchedule.monthIndex = monthIndex;

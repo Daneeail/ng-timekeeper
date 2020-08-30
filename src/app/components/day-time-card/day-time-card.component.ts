@@ -27,7 +27,6 @@ export class DayTimeCardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.timeService.getScheduleForMonth(9));
   }
 
   openScheduleCard(currentSchedule?: Schedule): void {
