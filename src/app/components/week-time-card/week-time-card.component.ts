@@ -38,7 +38,7 @@ export class WeekTimeCardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.currentWeekSchedule = this.timeService.getScheduleForWeek(moment().isoWeek());
+    this.currentWeekSchedule = this.timeService.getScheduleForWeek(moment().week());
     this.setConsistentOpenState();
   }
 
