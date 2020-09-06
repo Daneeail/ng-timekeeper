@@ -27,7 +27,7 @@ export class ElapsedTimeDisplayComponent implements OnInit {
       schedule.tasks.forEach(task => {
         if (moment(task.startDt).isSame(moment(), unitOfTime)) {
           if (task.endDt) {
-            totalSecondsInDay += this.timeService.calculateTotalSeconds(task.startDt, task.endDt);
+            totalSecondsInDay += this.timeService.calculateTaskSeconds(task.startDt, task.endDt);
           }
         }
       });

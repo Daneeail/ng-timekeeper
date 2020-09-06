@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Schedule } from 'src/app/models/schedule';
 import { DaySchedule } from 'src/app/models/day-schedule';
-import * as moment from 'moment';
 import { WeekSchedule } from '../models/week-schedule';
 import { MonthSchedule } from '../models/month-schedule';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +13,24 @@ export class TimeService {
 
   constructor() { }
 
-  calculateTotalSeconds(startDt: Date, endDt?: Date): number {
+  calculateTaskSeconds(startDt: Date, endDt?: Date): number {
     const start = moment(startDt);
     const end = endDt ? moment(endDt) : moment();
-    const timeDiff = end.diff(start, 'seconds') + 1;
+    const timeDiff = end.diff(start, 'seconds');
 
-    return timeDiff;
+    return timeDiff + 1;
+  }
+
+  calculateScheduleSeconds(schedule: Schedule): number {
+    let totalSeconds = 0;
+
+    schedule.tasks.forEach(task => {
+      if (task.endDt) {
+        totalSeconds += this.calculateTaskSeconds(task.startDt, task.endDt);
+      }
+    });
+
+    return totalSeconds;
   }
 
   convertSecondsToLongTimeString(seconds: number): string {

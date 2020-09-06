@@ -123,7 +123,7 @@ export class WeekTimeCardComponent implements OnInit {
   }
 
   calculateTaskDuration(startDt: Date, endDt: Date): string {
-    const timeDiff = this.timeService.calculateTotalSeconds(startDt, endDt);
+    const timeDiff = this.timeService.calculateTaskSeconds(startDt, endDt);
 
     return this.timeService.convertSecondsToShortTimeString(timeDiff);
   }
@@ -131,7 +131,7 @@ export class WeekTimeCardComponent implements OnInit {
   calculateTotalScheduleTime(schedule: Schedule): number {
     let totalSeconds = 0;
     schedule.tasks.forEach(task => {
-      totalSeconds += this.timeService.calculateTotalSeconds(task.startDt, task.endDt);
+      totalSeconds += this.timeService.calculateTaskSeconds(task.startDt, task.endDt);
     });
 
     return totalSeconds;

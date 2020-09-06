@@ -69,7 +69,7 @@ export class ScheduleCardComponent implements OnInit {
     if (!this.form.get('nameField').invalid) {
       this.currentSchedule.name = this.form.get('nameField').value;
       this.currentSchedule.description = this.form.get('descriptionField')?.value;
-      this.currentSchedule.notes = this.form.get('formField')?.value;
+      this.currentSchedule.notes = this.form.get('notesField')?.value;
       this.dialogRef.close();
     } else {
       this.form.get('nameField').markAsTouched();

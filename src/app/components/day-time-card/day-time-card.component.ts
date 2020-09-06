@@ -7,6 +7,8 @@ import { Task } from 'src/app/models/task';
 import { Subscription } from 'rxjs';
 import { TimeService } from 'src/app/services/time.service';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import * as moment from 'moment';
+import { DaySchedule } from 'src/app/models/day-schedule';
 
 @Component({
   selector: 'app-day-time-card',
@@ -18,6 +20,7 @@ export class DayTimeCardComponent implements OnInit {
   dialogRefSub: Subscription;
   faSpinner = faSpinner;
   isTaskStarted = false;
+  currentDaySchedule: DaySchedule;
   currentScheduleIndex: number;
   currentTaskIndex: number;
 
@@ -27,6 +30,7 @@ export class DayTimeCardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.currentDaySchedule = this.timeService.getScheduleForDay(moment().dayOfYear());
   }
 
   openScheduleCard(currentSchedule?: Schedule): void {
@@ -43,6 +47,7 @@ export class DayTimeCardComponent implements OnInit {
     this.dialogRefSub = this.dialogRef.afterClosed().subscribe((value: Schedule) => {
       if (value) {
         this.timeService.schedules.push(value);
+        this.currentDaySchedule = this.timeService.getScheduleForDay(moment().dayOfYear());
       } else {
         this.dialogRefSub.unsubscribe();
       }
@@ -93,14 +98,20 @@ export class DayTimeCardComponent implements OnInit {
     this.setScheduleEndDt(scheduleIndex);
   }
 
-  calculateElapsedTime(startDt: Date): string {
-    const timeDiff = this.timeService.calculateTotalSeconds(startDt);
+  calculateTaskElapsedTime(startDt: Date): string {
+    const timeDiff = this.timeService.calculateTaskSeconds(startDt);
 
     return this.timeService.convertSecondsToLongTimeString(timeDiff);
   }
 
   calculateTaskDuration(startDt: Date, endDt: Date): string {
-    const timeDiff = this.timeService.calculateTotalSeconds(startDt, endDt);
+    const timeDiff = this.timeService.calculateTaskSeconds(startDt, endDt);
+
+    return this.timeService.convertSecondsToShortTimeString(timeDiff);
+  }
+
+  calculateScheduleDuration(schedule: Schedule): string {
+    const timeDiff = this.timeService.calculateScheduleSeconds(schedule);
 
     return this.timeService.convertSecondsToShortTimeString(timeDiff);
   }

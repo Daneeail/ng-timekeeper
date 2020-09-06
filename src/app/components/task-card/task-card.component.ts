@@ -84,7 +84,7 @@ export class TaskCardComponent implements OnInit {
       this.currentTask.startDt = this.form.get('startDtField').value;
       this.currentTask.endDt = this.form.get('endDtField').value;
       this.currentTask.description = this.form.get('descriptionField')?.value;
-      this.currentTask.notes = this.form.get('formField')?.value;
+      this.currentTask.notes = this.form.get('notesField')?.value;
       this.dialogRef.close();
     } else {
       this.form.get('nameField').markAsTouched();
