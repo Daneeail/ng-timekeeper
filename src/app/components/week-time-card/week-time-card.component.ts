@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TimeService } from 'src/app/services/time.service';
 import { WeekSchedule } from 'src/app/models/week-schedule';
-import { DaySchedule } from 'src/app/models/day-schedule';
-import { Schedule } from 'src/app/models/schedule';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import * as moment from 'moment';
 
@@ -31,8 +29,7 @@ import * as moment from 'moment';
   ]
 })
 export class WeekTimeCardComponent implements OnInit {
-  daysOfWeek: string[] = [];
-  currentWeekSchedule: WeekSchedule = {} as WeekSchedule;
+  currentWeekSchedule: WeekSchedule;
   isScheduleDisplayed = false;
   isTaskDisplayed = false;
 
@@ -41,8 +38,7 @@ export class WeekTimeCardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.daysOfWeek = this.timeService.setDaysOfWeek();
-    this.currentWeekSchedule = this.setWeekSchedule();
+    this.currentWeekSchedule = this.timeService.getScheduleForWeek(moment().isoWeek());
     this.setConsistentOpenState();
   }
 
@@ -86,59 +82,5 @@ export class WeekTimeCardComponent implements OnInit {
         }
       });
     });
-  }
-
-  setWeekSchedule(): WeekSchedule {
-    const weekSchedule: WeekSchedule = {} as WeekSchedule;
-
-    this.setDayIndex(weekSchedule);
-    this.addSchedulesForCurrentWeek(weekSchedule);
-
-    return weekSchedule;
-  }
-
-  addSchedulesForCurrentWeek(weekSchedule: WeekSchedule): WeekSchedule {
-    this.timeService.schedules.forEach(schedule => {
-      for (let i = 0; i < 7; i++) {
-        if (moment().startOf('week').add(i, 'days').isSame(schedule.startDt, 'day')) {
-          weekSchedule.daySchedules[i].schedules.push(schedule);
-          continue;
-        }
-      }
-    });
-
-    return weekSchedule;
-  }
-
-  setDayIndex(weekSchedule: WeekSchedule): WeekSchedule {
-    weekSchedule.daySchedules = [];
-
-    for (let i = 0; i < 7; i++) {
-      weekSchedule.daySchedules.push(new DaySchedule());
-      weekSchedule.daySchedules[i].dayIndex = i;
-      weekSchedule.daySchedules[i].schedules = [];
-    }
-
-    return weekSchedule;
-  }
-
-  calculateTaskDuration(startDt: Date, endDt: Date): string {
-    const timeDiff = this.timeService.calculateTaskSeconds(startDt, endDt);
-
-    return this.timeService.convertSecondsToShortTimeString(timeDiff);
-  }
-
-  calculateTotalScheduleTime(schedule: Schedule): number {
-    let totalSeconds = 0;
-    schedule.tasks.forEach(task => {
-      totalSeconds += this.timeService.calculateTaskSeconds(task.startDt, task.endDt);
-    });
-
-    return totalSeconds;
-  }
-
-  getTotalScheduleTimeString(schedule: Schedule): string {
-    const seconds = this.calculateTotalScheduleTime(schedule);
-    return this.timeService.convertSecondsToShortTimeString(seconds);
   }
 }

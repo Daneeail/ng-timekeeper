@@ -2,7 +2,7 @@
   <div class="col">
     <div class="row pointer boldest" (click)="toggleDaySchedules(i)">
       <div class="col">
-        {{ daysOfWeek[i] }}
+        {{ daySchedule.day }}
       </div>
     </div>
     <div *ngFor="let schedule of daySchedule.schedules; let j = index;" class="row" [@openClose]="schedule.state">
@@ -10,12 +10,6 @@
         <div class="row pointer bold" (click)="toggleScheduleTasks(i, j)">
           <div class="col">
             <span class="ml-2">{{ schedule.name }}</span>
-          </div>
-          <div class="col text-center">
-            {{ schedule.startDt | date: 'mediumTime'}} to {{ schedule.endDt | date: 'mediumTime' }}
-          </div>
-          <div class="col text-right">
-            {{ calculateTaskDuration(schedule.startDt, schedule.endDt) }}
           </div>
         </div>
         <div *ngFor="let task of schedule.tasks" class="row" [@openClose]="task.state">
@@ -26,12 +20,12 @@
             {{ task.startDt | date: 'mediumTime' }} to {{ task.endDt | date: 'mediumTime' }}
           </div>
           <div class="col text-right">
-            {{ calculateTaskDuration(task.startDt, task.endDt) }}
+            {{ timeService.calculateTaskDuration(task.startDt, task.endDt) }}
           </div>
         </div>
         <div *ngIf="schedule.tasks[0].state === 'open'" class="row boldest" [@openClose]="schedule.state">
           <div class="col text-right">
-            {{ getTotalScheduleTimeString(schedule) }}
+            {{ timeService.calculateScheduleDuration(schedule) }}
           </div>
         </div>
       </div>

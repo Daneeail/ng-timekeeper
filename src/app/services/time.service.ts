@@ -63,38 +63,6 @@ export class TimeService {
     return hrs + hrString + mins + minString + secs + secString;
   }
 
-  setDaysOfWeek(): string[] {
-    const daysOfWeek: string[] = [];
-
-    for (let i = 0; i < 7; i++) {
-      daysOfWeek.push(moment().startOf('week').add(i, 'days').format('dddd - MMMM Do, YYYY'));
-    }
-
-    return daysOfWeek;
-  }
-
-  setWeeksOfCurrentMonth(): string[] {
-    const weeksOfMonth: string[] = [];
-
-    const currentMonth = moment().get('month');
-    let checkMonth = moment().get('month');
-    let currentWeek = moment().startOf('month').isoWeek();
-
-    while (currentMonth === checkMonth) {
-      const week = moment().week(currentWeek).startOf('week').format('MMMM Do') + ' to ' + moment().week(currentWeek).endOf('week').format('MMMM Do');
-      weeksOfMonth.push(week);
-
-      currentWeek++;
-      checkMonth = moment().isoWeek(currentWeek).get('month');
-    }
-
-    const lastWeek = moment().isoWeek(currentWeek).startOf('week').format('MMMM Do') + ' to ' +
-      moment().isoWeek(currentWeek).endOf('week').format('MMMM Do');
-    weeksOfMonth.push(lastWeek);
-
-    return weeksOfMonth;
-  }
-
   getScheduleForDay(dayIndex: number): DaySchedule {
     const daySchedule = new DaySchedule();
 
@@ -148,5 +116,23 @@ export class TimeService {
     }
 
     return monthSchedule;
+  }
+
+  calculateTaskElapsedTime(startDt: Date): string {
+    const timeDiff = this.calculateTaskSeconds(startDt);
+
+    return this.convertSecondsToLongTimeString(timeDiff);
+  }
+
+  calculateTaskDuration(startDt: Date, endDt: Date): string {
+    const timeDiff = this.calculateTaskSeconds(startDt, endDt);
+
+    return this.convertSecondsToShortTimeString(timeDiff);
+  }
+
+  calculateScheduleDuration(schedule: Schedule): string {
+    const timeDiff = this.calculateScheduleSeconds(schedule);
+
+    return this.convertSecondsToShortTimeString(timeDiff);
   }
 }

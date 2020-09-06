@@ -98,24 +98,6 @@ export class DayTimeCardComponent implements OnInit {
     this.setScheduleEndDt(scheduleIndex);
   }
 
-  calculateTaskElapsedTime(startDt: Date): string {
-    const timeDiff = this.timeService.calculateTaskSeconds(startDt);
-
-    return this.timeService.convertSecondsToLongTimeString(timeDiff);
-  }
-
-  calculateTaskDuration(startDt: Date, endDt: Date): string {
-    const timeDiff = this.timeService.calculateTaskSeconds(startDt, endDt);
-
-    return this.timeService.convertSecondsToShortTimeString(timeDiff);
-  }
-
-  calculateScheduleDuration(schedule: Schedule): string {
-    const timeDiff = this.timeService.calculateScheduleSeconds(schedule);
-
-    return this.timeService.convertSecondsToShortTimeString(timeDiff);
-  }
-
   setScheduleStartDt(scheduleIndex: number): void {
     let earliestStartDt: Date;
 
