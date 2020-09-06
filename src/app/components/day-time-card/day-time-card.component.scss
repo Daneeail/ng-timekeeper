@@ -2,14 +2,24 @@
   cursor: pointer;
 }
 
-#schedule-name-row {
-  margin-bottom: -1rem;
-}
-
 #schedule-name-col {
   font-weight: 700;
 }
 
 .link {
   cursor: pointer;
+}
+
+.schedule-remove-button {
+  line-height: 0.5em;
+  height: 0.5em;
+}
+
+.task-remove-button {
+  line-height: 0.25em;
+  height: 0.25em;
+}
+
+.task-remove-icon {
+  font-size: 15px;
 }

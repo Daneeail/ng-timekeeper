@@ -129,4 +129,13 @@ export class DayTimeCardComponent implements OnInit {
 
     this.timeService.schedules[scheduleIndex].endDt = lastEndDt;
   }
+
+  removeSchedule(sIndex: number): void {
+    this.timeService.schedules.splice(sIndex, 1);
+    this.currentDaySchedule = this.timeService.getScheduleForDay(moment().dayOfYear());
+  }
+
+  removeTask(sIndex: number, tIndex: number): void {
+    this.timeService.schedules[sIndex].tasks.splice(tIndex, 1);
+  }
 }

@@ -2,11 +2,14 @@
   <div class="col">
     <div class="row boldest">
       <div class="col"></div>
-      <div class="col">
+      <div class="col text-center">
         Description
       </div>
-      <div class="col">
+      <div class="col text-center">
         Notes
+      </div>
+      <div class="col text-center">
+        Duration
       </div>
       <div class="col text-right">
         <button mat-icon-button (click)="openScheduleCard()">
@@ -17,7 +20,7 @@
     </div>
     <div *ngFor="let schedule of currentDaySchedule.schedules; let sIndex=index" class="row">
       <div class="col">
-        <div class="row" id="schedule-name-row">
+        <div class="row">
           <div class="col" id="schedule-name-col">
             <span class="link" (click)="openScheduleCard(schedule)">{{ schedule.name }}</span>
           </div>
@@ -28,10 +31,9 @@
             {{ schedule.notes }}
           </div>
           <div class="col text-right mb-2 boldest">
-            <button mat-icon-button (click)="openTaskCard(sIndex)">
-              <mat-icon>add</mat-icon>
+            <button mat-icon-button class="schedule-remove-button" (click)="removeSchedule(sIndex)">
+              <mat-icon>close</mat-icon>
             </button>
-            <span>Add Task</span>
           </div>
         </div>
         <div *ngFor="let task of schedule.tasks; let tIndex=index" class="row py-1 pl-3">
@@ -41,14 +43,19 @@
           <div *ngIf="!task.endDt" class="col">
             <span>{{ task.startDt | date: 'mediumTime' }} - {{ timeService.calculateTaskElapsedTime(task.startDt) }}</span>
           </div>
-          <div class="col">
+          <div class="col text-center">
             {{ task.description }}
           </div>
-          <div class="col">
+          <div class="col text-center">
             {{ task.notes }}
           </div>
-          <div *ngIf="task.endDt" class="col text-right">
+          <div *ngIf="task.endDt" class="col text-center">
             {{ timeService.calculateTaskDuration(task.startDt, task.endDt) }}
+          </div>
+          <div class="col text-right">
+            <button mat-icon-button class="task-remove-button" (click)="removeTask(sIndex, tIndex)">
+              <mat-icon class="task-remove-icon">close</mat-icon>
+            </button>
           </div>
         </div>
         <div class="row pt-2 pb-3 pl-3 boldest">
@@ -61,10 +68,19 @@
               <fa-icon [icon]="faSpinner" [spin]="true"></fa-icon>
               <span class="pl-3">Stop Task</span>
             </span>
+            <span class="pl-3" (click)="openTaskCard(sIndex)">
+              <button mat-icon-button (click)="openTaskCard(sIndex)">
+                <mat-icon>add</mat-icon>
+              </button>
+              <span>Add Task</span>
+            </span>
           </div>
-          <div class="col text-right">
+          <div class="col"></div>
+          <div class="col"></div>
+          <div class="col text-center">
             {{ timeService.calculateScheduleDuration(schedule) }}
           </div>
+          <div class="col"></div>
         </div>
       </div>
     </div>
