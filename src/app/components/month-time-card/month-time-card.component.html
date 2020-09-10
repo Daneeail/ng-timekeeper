@@ -1,1 +1,43 @@
-<p>month-time-card works!</p>
+<div *ngFor="let weekSchedule of monthSchedule.weekSchedules; let i = index;" class="row">
+  <div class="col">
+    <div class="row ml-2 boldest" (click)="toggleWeekSchedules(i)">
+      <div class="col">
+        {{ weekSchedule.week }}
+      </div>
+    </div>
+    <div *ngFor="let daySchedule of weekSchedule.daySchedules; let j = index;" class="row p-3" [@openClose]="daySchedule.state">
+      <div class="col">
+        <div class="row pointer boldest" (click)="toggleDaySchedules(i, j)">
+          <div class="col">
+            {{ daySchedule.day }}
+          </div>
+        </div>
+        <div *ngFor="let schedule of daySchedule.schedules; let k = index;" class="row" [@openClose]="schedule.state">
+          <div class="col">
+            <div class="row pointer bold" (click)="toggleScheduleTasks(i, j, k)">
+              <div class="col">
+                <span class="ml-2">{{ schedule.name }}</span>
+              </div>
+            </div>
+            <div *ngFor="let task of schedule.tasks" class="row" [@openClose]="task.state">
+              <div class="col">
+                <span class="ml-4">{{ task.name }}</span>
+              </div>
+              <div class="col text-center">
+                {{ task.startDt | date: 'mediumTime' }} to {{ task.endDt | date: 'mediumTime' }}
+              </div>
+              <div class="col text-right">
+                {{ timeService.calculateTaskDuration(task.startDt, task.endDt) }}
+              </div>
+            </div>
+            <div *ngIf="schedule.tasks[0].state === 'open'" class="row boldest" [@openClose]="schedule.state">
+              <div class="col text-right">
+                {{ timeService.calculateScheduleDuration(schedule) }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

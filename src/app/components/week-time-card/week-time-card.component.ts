@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { TimeService } from 'src/app/services/time.service';
 import { WeekSchedule } from 'src/app/models/week-schedule';
 import { trigger, state, style, transition, animate } from '@angular/animations';
@@ -29,45 +29,48 @@ import * as moment from 'moment';
   ]
 })
 export class WeekTimeCardComponent implements OnInit {
-  currentWeekSchedule: WeekSchedule;
+  weekSchedule: WeekSchedule;
   isScheduleDisplayed = false;
   isTaskDisplayed = false;
+
+  @Input() public weekIndex: number = null;
 
   constructor(
     public timeService: TimeService
   ) { }
 
   ngOnInit(): void {
-    this.currentWeekSchedule = this.timeService.getScheduleForWeek(moment().week());
+    this.weekSchedule = !this.weekIndex ? this.timeService.getScheduleForWeek(moment().week()) :
+      this.timeService.getScheduleForWeek(this.weekIndex);
     this.setConsistentOpenState();
   }
 
   toggleDaySchedules(index: number): void {
-    if (this.currentWeekSchedule.daySchedules[index].schedules[0]?.state === 'closed') {
-      this.currentWeekSchedule.daySchedules[index].schedules.forEach(schedule => {
+    if (this.weekSchedule.daySchedules[index].schedules[0]?.state === 'closed') {
+      this.weekSchedule.daySchedules[index].schedules.forEach(schedule => {
         schedule.state = 'open';
       });
     } else {
-      this.currentWeekSchedule.daySchedules[index].schedules.forEach(schedule => {
+      this.weekSchedule.daySchedules[index].schedules.forEach(schedule => {
         schedule.state = 'closed';
       });
     }
   }
 
   toggleScheduleTasks(dayIndex: number, scheduleIndex: number): void {
-    if (this.currentWeekSchedule.daySchedules[dayIndex].schedules[scheduleIndex].tasks[0]?.state === 'closed') {
-      this.currentWeekSchedule.daySchedules[dayIndex].schedules[scheduleIndex].tasks.forEach(task => {
+    if (this.weekSchedule.daySchedules[dayIndex].schedules[scheduleIndex].tasks[0]?.state === 'closed') {
+      this.weekSchedule.daySchedules[dayIndex].schedules[scheduleIndex].tasks.forEach(task => {
         task.state = 'open';
       });
     } else {
-      this.currentWeekSchedule.daySchedules[dayIndex].schedules[scheduleIndex].tasks.forEach(task => {
+      this.weekSchedule.daySchedules[dayIndex].schedules[scheduleIndex].tasks.forEach(task => {
         task.state = 'closed';
       });
     }
   }
 
   setConsistentOpenState(): void {
-    this.currentWeekSchedule.daySchedules.forEach(daySchedule => {
+    this.weekSchedule.daySchedules.forEach(daySchedule => {
       if (daySchedule.schedules[0]?.state === 'open') {
         daySchedule.schedules.forEach(schedule => {
           schedule.state = 'open';

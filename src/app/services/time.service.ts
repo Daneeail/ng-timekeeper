@@ -18,7 +18,7 @@ export class TimeService {
     const end = endDt ? moment(endDt) : moment();
     const timeDiff = end.diff(start, 'seconds');
 
-    return timeDiff + 1;
+    return timeDiff;
   }
 
   calculateScheduleSeconds(schedule: Schedule): number {
@@ -69,6 +69,7 @@ export class TimeService {
     daySchedule.day = moment().dayOfYear(dayIndex).format('dddd - MMMM Do, YYYY');
     daySchedule.dayIndex = dayIndex;
     daySchedule.schedules = this.schedules.filter(schedule => schedule.dayIndex === dayIndex);
+    daySchedule.state = 'closed';
 
     return daySchedule;
   }
@@ -90,6 +91,7 @@ export class TimeService {
 
     weekSchedule.week = moment().dayOfYear(startOfWeekDayIndex).format('MMMM Do') + ' to ' + moment().dayOfYear(endOfWeekDayIndex).format('MMMM Do');
     weekSchedule.weekIndex = weekIndex;
+    weekSchedule.state = 'closed';
     weekSchedule.daySchedules = [];
     for (let i = startOfWeekDayIndex; i < endOfWeekDayIndex + 1; i++) {
       let daySchedule = new DaySchedule();
@@ -112,6 +114,7 @@ export class TimeService {
     for (let i = startOfMonthWeekIndex; i < endOfMonthWeekIndex + 1; i++) {
       let weekSchedule = new WeekSchedule();
       weekSchedule = this.getScheduleForWeek(i);
+
       monthSchedule.weekSchedules.push(weekSchedule);
     }
 

@@ -4,4 +4,5 @@ export class DaySchedule {
   day: string;
   dayIndex: number;
   schedules: Schedule[];
+  state: string;
 }
