@@ -16,7 +16,7 @@ import { DaySchedule } from 'src/app/models/day-schedule';
           opacity: 1,
       })),
       state('closed', style({
-          height: '0',
+          height: '0px',
           opacity: 0
       })),
       transition('open => closed', [
@@ -37,6 +37,7 @@ export class MonthTimeCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.monthSchedule = this.timeService.getScheduleForMonth(moment().month());
+    this.setAllTimeAsClosedState();
   }
 
   toggleWeekSchedules(index: number): void {
@@ -73,5 +74,21 @@ export class MonthTimeCardComponent implements OnInit {
         task.state = 'closed';
       });
     }
+  }
+
+  setAllTimeAsClosedState(): void {
+    this.monthSchedule.weekSchedules.forEach(weekSchedule => {
+      weekSchedule.daySchedules.forEach(daySchedule => {
+        daySchedule.state = 'closed';
+
+        daySchedule.schedules.forEach(schedule => {
+          schedule.state = 'closed';
+
+          schedule.tasks.forEach(task => {
+            task.state = 'closed';
+          });
+        });
+      });
+    });
   }
 }

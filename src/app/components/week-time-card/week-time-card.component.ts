@@ -42,7 +42,7 @@ export class WeekTimeCardComponent implements OnInit {
   ngOnInit(): void {
     this.weekSchedule = !this.weekIndex ? this.timeService.getScheduleForWeek(moment().week()) :
       this.timeService.getScheduleForWeek(this.weekIndex);
-    this.setConsistentOpenState();
+    this.setAllTimeAsClosedState();
   }
 
   toggleDaySchedules(index: number): void {
@@ -69,20 +69,14 @@ export class WeekTimeCardComponent implements OnInit {
     }
   }
 
-  setConsistentOpenState(): void {
+  setAllTimeAsClosedState(): void {
     this.weekSchedule.daySchedules.forEach(daySchedule => {
-      if (daySchedule.schedules[0]?.state === 'open') {
-        daySchedule.schedules.forEach(schedule => {
-          schedule.state = 'open';
-        });
-      }
-
       daySchedule.schedules.forEach(schedule => {
-        if (schedule.tasks[0]?.state === 'open') {
-          schedule.tasks.forEach(task => {
-            task.state = 'open';
-          });
-        }
+        schedule.state = 'closed';
+
+        schedule.tasks.forEach(task => {
+          task.state = 'closed';
+        });
       });
     });
   }

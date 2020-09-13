@@ -21,7 +21,7 @@
     <div *ngFor="let schedule of currentDaySchedule.schedules; let sIndex=index" class="row">
       <div class="col">
         <div class="row">
-          <div class="col" id="schedule-name-col">
+          <div class="col bold">
             <span class="link" (click)="openScheduleCard(schedule)">{{ schedule.name }}</span>
           </div>
           <div class="col">
@@ -61,13 +61,13 @@
         </div>
         <div class="row pt-2 pb-3 pl-3 boldest">
           <div class="col">
-            <span *ngIf="!isTaskStarted || sIndex !== currentScheduleIndex" id="start-task" (click)="startTask(sIndex, schedule.id)">
-              <fa-icon [icon]="faSpinner" [spin]="false"></fa-icon>
-              <span class="pl-3">Start Task</span>
+            <span *ngIf="!isTaskStarted || sIndex !== currentScheduleIndex" (click)="startTask(sIndex, schedule.id)">
+              <button mat-icon-button><fa-icon [icon]="faSpinner" [spin]="false"></fa-icon></button>
+              <span>Start Task</span>
             </span>
-            <span *ngIf="isTaskStarted && sIndex === currentScheduleIndex" id="start-task" (click)="stopTask(sIndex)">
-              <fa-icon [icon]="faSpinner" [spin]="true"></fa-icon>
-              <span class="pl-3">Stop Task</span>
+            <span *ngIf="isTaskStarted && sIndex === currentScheduleIndex" (click)="stopTask(sIndex)">
+              <button mat-icon-button><fa-icon [icon]="faSpinner" [spin]="true"></fa-icon></button>
+              <span>Stop Task</span>
             </span>
             <span class="pl-3">
               <button mat-icon-button (click)="openTaskCard(sIndex)">
